@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "modmail"
+version = "0.1.0"
+description = ""
+authors = ["JacobMonck <jacobamonck@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+"discord.py" = {git = "https://github.com/Rapptz/discord.py"}
+loguru = "^0.5.3"
+python-dotenv = "^0.19.0"
+black = "^21.9b0"
+
+[tool.poetry.dev-dependencies]
+taskipy = "^1.9.0"
+
+[tool.taskipy.tasks]
+format = "black bot -l 100"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
