@@ -9,16 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v1
+      - name: Set up Python
+        uses: actions/setup-python@v1
         with:
           python-version: 3.9
-      - uses: Gr1N/setup-poetry@v7
-      - uses: actions/cache@v2
+      
+      - name: Set up poetry
+        uses: Gr1N/setup-poetry@v7
+        
+      - name: Set up cache
+        uses: actions/cache@v2
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-      - run: poetry --version
-      - shell: bash
-      - run: poetry install
-      - run: poetry run task format
       
+      - name: Set up dependencies
+        shell: bash
+        run: poetry install
+      
+      - name: Format
+        shell: bash
+        run: poetry run task format
