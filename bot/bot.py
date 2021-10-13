@@ -2,7 +2,8 @@ import discord
 from discord.ext.commands import ExtensionNotFound, Bot
 from loguru import logger
 
-from config import BotConfig
+from config import EnvironmentConfig
+from database.database import db_init
 
 cogs = []
 
@@ -23,15 +24,17 @@ class ModMailBot(Bot):
             except ExtensionNotFound:
                 logger.error(f"Failed to load extension {cog}")
 
+        self.loop.run_until_complete(db_init())
+
 
 def main():
     intents = discord.Intents.all()
 
-    bot = ModMailBot(intents=intents, command_prefix=BotConfig.prefix)
+    bot = ModMailBot(intents=intents, command_prefix=EnvironmentConfig.prefix)
 
     bot.startup()
 
-    bot.run(BotConfig.token)
+    bot.run(EnvironmentConfig.token)
 
 
 if __name__ == "__main__":
