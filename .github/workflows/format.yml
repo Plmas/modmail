@@ -1,0 +1,32 @@
+name: Format
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      
+      - name: Set up poetry
+        run: pip install poetry
+        
+      - name: Set up cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+      
+      - name: Set up dependencies
+        shell: bash
+        run: poetry install
+      
+      - name: Format
+        shell: bash
+        run: poetry run task format
