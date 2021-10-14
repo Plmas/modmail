@@ -6,12 +6,12 @@ authors = ["JacobMonck <jacobamonck@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-"discord.py" = {git = "https://github.com/Rapptz/discord.py"}
 loguru = "^0.5.3"
 python-dotenv = "^0.19.0"
 black = "^21.9b0"
 tortoise-orm = "^0.17.7"
 asyncpg = "^0.24.0"
+disnake = "^2.1.2"
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.9.0"
