@@ -1,12 +1,16 @@
+import importlib
+import inspect
+import os
+import pkgutil
+
 import disnake
-from disnake.ext.commands import ExtensionNotFound
+from disnake.ext.commands import ExtensionNotFound, ExtensionError
 from disnake.ext import commands
 from loguru import logger
+import cogs
 
 from config import EnvironmentConfig
 from database.database import db_init
-
-cogs = []
 
 
 class ModMailBot(commands.Bot):
@@ -16,14 +20,18 @@ class ModMailBot(commands.Bot):
     async def on_ready(self) -> None:
         logger.info(f"Bot has received ready event and logged in as {self.user}")
 
+    def load_extensions(self) -> None:
+        for file in os.listdir("cogs"):
+            if file.endswith(".py"):
+                cog = f"cogs.{file[:-3]}"
+                try:
+                    self.load_extension(cog)
+                    logger.info(f"Loaded extension {cog}")
+                except ExtensionError as e:
+                    logger.error(f"Failed to load extension {e}")
+
     def startup(self) -> None:
-        logger.info("Loading extensions...")
-        for cog in cogs:
-            try:
-                self.load_extension(cog)
-                logger.info(f"Loaded extension {cog}")
-            except ExtensionNotFound:
-                logger.error(f"Failed to load extension {cog}")
+        self.load_extensions()
 
         self.loop.run_until_complete(db_init())
 
