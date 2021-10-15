@@ -1,2 +1,2 @@
 # modmail
-An advanced ModMail bot using discord.py.
+An advanced ModMail bot using disnake.
